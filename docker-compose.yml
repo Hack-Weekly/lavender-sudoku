@@ -2,19 +2,20 @@ version: "3.8"
 
 volumes:
     app_data:
-        name: hds_app_data
+        name: lss_app_data
     static_files:
-        name: hds_static_files
+        name: lss_static_files
     media_files:
-        name: hds_media_files
+        name: lss_media_files
 
 services:
     django:
         build:
             context: .
             dockerfile: Dockerfile
-        image: hds:development
-        container_name: hds_django
+        image: lss:development
+        container_name: lss_django
+        user: root
         command: /app/docker/start.sh server
         depends_on:
             - postgres
@@ -29,8 +30,8 @@ services:
 
     postgres:
         image: postgres:13.3-alpine
-        hostname: hds-postgres
-        container_name: hds_postgres
+        hostname: lss-postgres
+        container_name: lss_postgres
         volumes:
             - app_data:/var/lib/postgresql/data
         env_file:

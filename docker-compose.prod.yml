@@ -2,23 +2,23 @@ version: "3.8"
 
 volumes:
     app_data:
-        name: hds_app_data
+        name: lss_app_data
     static_files:
-        name: hds_static_files
+        name: lss_static_files
     media_files:
-        name: hds_media_files
+        name: lss_media_files
     certbot_web:
-        name: hds_certbot_web
+        name: lss_certbot_web
     certbot_certs:
-        name: hds_certbot_certs
+        name: lss_certbot_certs
 
 services:
     django:
         build:
             context: .
             dockerfile: Dockerfile
-        image: hds:production
-        container_name: hds_django_production
+        image: lss:production
+        container_name: lss_django_production
         command: /app/docker/start.sh server
         depends_on:
             - postgres
@@ -32,8 +32,8 @@ services:
 
     postgres:
         image: postgres:13.3-alpine
-        container_name: hds_postgres_production
-        hostname: hds-postgres
+        container_name: lss_postgres_production
+        hostname: lss-postgres
         volumes:
             - app_data:/var/lib/postgresql/data
         env_file:
@@ -45,7 +45,7 @@ services:
             context: ./nginx
             dockerfile: Dockerfile
         image: nginx:development
-        container_name: hds_nginx_production
+        container_name: lss_nginx_production
         ports:
             - 80:80
             - 443:443
@@ -60,7 +60,7 @@ services:
             - .env
 
     certbot:
-            container_name: hds_certbot_production      
+            container_name: lss_certbot_production      
             build:
               context: ./certbot
             command: certbot certonly --webroot --webroot-path "/vol/www/" -d "$DOMAIN" --email $EMAIL --rsa-key-size 4096 --agree-tos --noninteractive

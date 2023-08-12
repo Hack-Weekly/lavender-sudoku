@@ -16,7 +16,7 @@ RUN pip install --no-cache-dir -r /tmp/requirements.txt \
 
 
 WORKDIR /app
-USER app_user:app_user
+USER root
 COPY --chown=app_user:app_user . .
 RUN chmod +x docker/*.sh
 
