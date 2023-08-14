@@ -4,7 +4,7 @@ export const FormPage = ({ isLogin }) => {
   return (
     <div className="grid h-screen w-screen bg-[#fafafa] sm:grid-cols-1 md:grid-cols-3">
       <div className="col-span-1 grid h-full grid-cols-12 bg-blue-300  sm:hidden md:block">
-        {/* <p className="text-center text-4xl"> Sticky Notes</p> */}
+        <p className="text-center text-4xl">Lavender Sudoku</p>
         <div className="col-span- p-16">
           <div className="absolute bottom-[34vh] left-[16vw] z-30 h-[20vw] w-[20vw] rounded-2xl bg-[#bef9c8] md:bottom-[40vh] lg:h-[30vh] lg:w-[30vh]"></div>
           <div className="absolute bottom-[12vh] left-[4vw] z-20 rounded-2xl bg-[#81e0f3] md:h-[42vw] md:w-[20vw] lg:h-[26vw] lg:w-[16vw]"></div>
