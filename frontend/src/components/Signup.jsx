@@ -22,7 +22,7 @@ export const Signup = () => {
       const response = await register(credentials);
       if (response.status === 201) {
         login({ username: username, password: password });
-        navigate("/dashboard");
+        navigate("/");
       }
     } catch (error) {
       setIsValid(false);

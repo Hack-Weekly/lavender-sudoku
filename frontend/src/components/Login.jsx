@@ -16,7 +16,7 @@ export const Login = () => {
     try {
       const status = await login(credentials);
       if (status === 200) {
-        navigate("/dashboard");
+        navigate("/");
       }
     } catch (error) {
       setIsValid(false);
@@ -38,7 +38,7 @@ export const Login = () => {
         <div className="mb-4 flex flex-col gap-6">
           <Input
             size="lg"
-            label="username"
+            label="Username"
             color="blue"
             onChange={(e) => {
               setUsername(e.target.value);
