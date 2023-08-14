@@ -1,22 +1,15 @@
 import React from "react";
-import Subgrid from "./Subgrid";
+import Cell from "./Cell";
 
 const Grid = () => {
-  let grid = [
-    [[], [], [], [], [], [], [], [], []],
-    [[], [], [], [], [], [], [], [], []],
-    [[], [], [], [], [], [], [], [], []],
-    [[], [], [], [], [], [], [], [], []],
-    [[], [], [], [], [], [], [], [], []],
-    [[], [], [], [], [], [], [], [], []],
-    [[], [], [], [], [], [], [], [], []],
-    [[], [], [], [], [], [], [], [], []],
-    [[], [], [], [], [], [], [], [], []],
-  ];
+  let grid = [];
+  for (let i = 0; i < 81; i++) {
+    grid.push("");
+  }
   return (
-    <div className="grid grid-cols-3 w-fit gap-1 p-1 bg-violet-950">
-      {grid.map((cells, index) => (
-        <Subgrid key={index} cells={cells} SubgridId={index}></Subgrid>
+    <div className="grid grid-cols-9 w-fit gap-1 p-1 bg-violet-950">
+      {grid.map((content, index) => (
+        <Cell key={index} content={content} cellId={index}></Cell>
       ))}
     </div>
   );
