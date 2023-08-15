@@ -141,3 +141,5 @@ GitHub.sublime-settings
 
 static/*
 media/*
+
+gen_test.py

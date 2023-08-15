@@ -18,6 +18,7 @@ djangorestframework==3.14.0
 Markdown==3.4.3
 django-filter==23.2
 django-ipware==5.0.0
+sudokum
 
 #[api-packages]
 django-cors-headers==3.14.0
