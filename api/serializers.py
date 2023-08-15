@@ -5,7 +5,7 @@ from rest_framework import serializers
 from rest_framework.validators import UniqueValidator
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework.exceptions import ValidationError
-
+from api.models import Game
 
 User=get_user_model()
 
@@ -58,3 +58,8 @@ class RegisterSerializer(serializers.ModelSerializer):
 
         return user
 
+class GameSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Game
+        fields = ['id','user','level','board','user_solution','tries_left']
+        read_only_fields = ['id','user','level','board','tries_left']
