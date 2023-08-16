@@ -63,3 +63,9 @@ class GameSerializer(serializers.ModelSerializer):
         model = Game
         fields = ['id','user','level','board','user_solution','tries_left']
         read_only_fields = ['id','user','level','board','tries_left']
+
+class LeaderboardSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['id','username','level','score']
+        read_only_fields = ['id','username','level','score']
