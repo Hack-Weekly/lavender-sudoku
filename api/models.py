@@ -5,13 +5,14 @@ from django.utils.text import slugify
 #import projec
 from django.contrib.postgres.fields import ArrayField
 import json
+import time
 from django.core.validators import MaxValueValidator, MinValueValidator
 
 class User(AbstractUser):
     
     bio=models.TextField(default="I love numbers.")
     level=models.IntegerField(default=1,validators=[MinValueValidator(1),MaxValueValidator(10)])
-    score=models.IntegerField(default=0)
+    score=models.FloatField(default=0)
 
     def __str__(self):
         return self.username
@@ -27,6 +28,8 @@ class Game(models.Model):
     solution=models.TextField(blank=True,null=True)
     user_solution=models.TextField(blank=True,null=True)
     tries_left=models.IntegerField()
+    created_at=models.FloatField(default=time.time())
+    finished_at=models.FloatField(blank=True,null=True)
 
     @property
     def playing_board(self):
@@ -54,9 +57,19 @@ class Game(models.Model):
     def solved(self):
         return self.solution==self.user_solution
     
-    def score(self):
-        return self.user_solution.count("0")
 
+    @property
+    def finishing_time(self):
+        #return finshed time in seconds
+        #will be used to calculate score
+        finish_seconds=self.finished_at-self.created_at
+        if finish_seconds<=3600:
+            return finish_seconds
+        return 1
+    
+    def score(self):
+        if self.solved():
+            return self.level*10+int(self.finishing_time)/10 + self.tries_left *1.5
 
     def __str__(self):
         return self.user.username+" "+str(self.id)
