@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { Leaderboard } from "../components/LeaderBoard";
 
-export const LandingPage = () => {
+export const LandingPage = ({isAuth}) => {
   const leaderboardData = [
     { rank: 1, username: "Player1", score: 2000 },
     { rank: 2, username: "Player2", score: 1800 },

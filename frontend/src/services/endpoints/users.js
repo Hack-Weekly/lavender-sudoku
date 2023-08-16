@@ -23,10 +23,10 @@ export const login = async (data) => {
 };
 
 export const logout = () => {
-    localStorage.removeItem("accessToken");
-    localStorage.removeItem("refreshToken");
-    delete api.defaults.headers.common["Authorization"];
-}
+  localStorage.removeItem("accessToken");
+  localStorage.removeItem("refreshToken");
+  delete api.defaults.headers.common["Authorization"];
+};
 
 export const getRefreshToken = async (refreshToken) => {
   const route = "/token/refresh/";
@@ -35,11 +35,6 @@ export const getRefreshToken = async (refreshToken) => {
 };
 
 export const getProfile = async () => {
-    const route = "/profile/";
-    return get(route);
-}
-
-export const editProfile = async (data) => {
   const route = "/profile/";
-  return put(route, data);
-}
+  return get(route);
+};

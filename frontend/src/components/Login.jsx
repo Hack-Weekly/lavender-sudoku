@@ -2,7 +2,7 @@ import { Card, Input, Button, Typography } from "@material-tailwind/react";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { login } from "../services/endpoints/users";
-export const Login = () => {
+export const Login2 = () => {
   const [username, setUsername] = useState(null);
   const [password, setPassword] = useState(null);
   const [isValid, setIsValid] = useState(true);
