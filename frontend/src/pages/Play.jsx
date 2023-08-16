@@ -6,7 +6,7 @@ import { MyContextProvider } from "../components/SelectedCellContext";
 const Play = () => {
   return (
   <MyContextProvider>
-    <div className="flex flex-col justify-center items-center h-screen">
+    <div className="flex flex-row gap-5 justify-center items-center h-screen">
       <Grid></Grid>
       <Controls></Controls>
     </div>
