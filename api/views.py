@@ -69,21 +69,25 @@ def testEndPoint(request):
 
 
 class NewGameAPIView(APIView):
-    permission_classes = [IsAuthenticated]
-    def get(self,request):
-        user=self.request.user
-        new_board=sudokum.generate(mask_rate=user.level/10)
-        solved,new_board_solution=sudokum.solve(new_board)
-        while not solved:
-            new_board=sudokum.generate(mask_rate=user.level/10)
-            solved,new_board_solution=sudokum.solve(new_board)
-        game=Game.objects.create(
-            user=user, 
-            level=user.level,)
-        game.playing_board=new_board
-        game.playing_board_solution=new_board_solution
-        game.save()
-        return Response({"game_id":game.id},status=status.HTTP_201_CREATED)
+    def get(self, request):
+        user = self.request.user
+        if user.is_authenticated:
+            new_board = sudokum.generate(mask_rate=user.level/10)
+            solved, new_board_solution = sudokum.solve(new_board)
+            while not solved:
+                new_board = sudokum.generate(mask_rate=user.level/10)
+                solved, new_board_solution = sudokum.solve(new_board)
+            game = Game.objects.create(
+                user=user,
+                level=user.level,)
+            game.playing_board = new_board
+            game.playing_board_solution = new_board_solution
+            game.save()
+            return Response({"game_id": game.id}, status=status.HTTP_201_CREATED)
+        else:
+            # trial game if user not authenticated
+            new_board = sudokum.generate(mask_rate=0.6)
+            return Response({"Random Game": new_board}, status=status.HTTP_200_OK)
     
 
 class GameAPIView(APIView):

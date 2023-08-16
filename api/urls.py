@@ -19,5 +19,5 @@ urlpatterns = [
     path('game/', views.NewGameAPIView.as_view(), name='new_game'),
     path('game/<int:pk>/', views.GameAPIView.as_view(), name='game'),
     path('leaderboard/', views.LeaderBoardAPIView.as_view(), name='leaderboard'),
-     path('profile/', views.UserProfileAPIView.as_view(), name='profile'),
+    path('profile/', views.UserProfileAPIView.as_view(), name='profile'),
 ]
