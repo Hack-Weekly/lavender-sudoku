@@ -19,7 +19,17 @@ const grid = [
         ['0', '4', '2', '9', '1', '0', '3', '0', '0']
 ]
 
-
+// replace zeros with empty string
+function replaceZeros(grid) {
+    for (let i = 0; i < grid.length; i++) {
+        for (let j = 0; j < 9; j++) {
+            if (grid[i][j] === '0') {
+                grid[i][j] = '';
+            }
+        }
+    }
+}
+replaceZeros(grid);
 
 
 export const MyContextProvider = ({ children }) => {

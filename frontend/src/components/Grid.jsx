@@ -1,5 +1,4 @@
 import React from "react";
-import Cell from "./Cell";
 import Row from './Row';
 import { useMyContext } from "./SelectedCellContext";
 
