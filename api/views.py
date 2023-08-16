@@ -3,7 +3,7 @@ from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from django.http import JsonResponse,Http404
-from api.serializers import MyTokenObtainPairSerializer, RegisterSerializer
+from api.serializers import MyTokenObtainPairSerializer, RegisterSerializer, UserSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework import generics
 from django.contrib.auth import get_user_model
@@ -37,10 +37,8 @@ def getRoutes(request):
         '/api/register/',
         '/api/token/refresh/',
         '/api/test/',
-        '/api/docs/',
-        '/api/teams/',
-        '/api/projects/',
-        '/api/profile/',
+        '/api/game/',
+        '/profile/'
     ]
     # for urls in urlpatterns:
     #     routes.append(urls.pattern._route)
@@ -68,22 +66,34 @@ def testEndPoint(request):
     return Response("Invalid JSON data", status.HTTP_400_BAD_REQUEST)
 
 
-class NewGameAPIView(APIView):
+class UserProfileAPIView(APIView):
     permission_classes = [IsAuthenticated]
+
+    def get(self, request, format=None):
+        profile = User.objects.get(username=request.user)
+        serilizer_profile = UserSerializer(profile)
+        return Response({'profile': serilizer_profile.data},status=status.HTTP_200_OK)
+
+class NewGameAPIView(APIView):
     def get(self,request):
         user=self.request.user
-        new_board=sudokum.generate(mask_rate=user.level/10)
-        solved,new_board_solution=sudokum.solve(new_board)
-        while not solved:
+        if user.is_authenticated:
             new_board=sudokum.generate(mask_rate=user.level/10)
             solved,new_board_solution=sudokum.solve(new_board)
-        game=Game.objects.create(
-            user=user, 
-            level=user.level,)
-        game.playing_board=new_board
-        game.playing_board_solution=new_board_solution
-        game.save()
-        return Response({"game_id":game.id},status=status.HTTP_201_CREATED)
+            while not solved:
+                new_board=sudokum.generate(mask_rate=user.level/10)
+                solved,new_board_solution=sudokum.solve(new_board)
+            game=Game.objects.create(
+                user=user, 
+                level=user.level,)
+            game.playing_board=new_board
+            game.playing_board_solution=new_board_solution
+            game.save()
+            return Response({"game_id":game.id},status=status.HTTP_201_CREATED)
+        else:
+            # trial game if user not authenticated
+            new_board = sudokum.generate(mask_rate=0.6)
+            return Response({"Random Game":new_board}, status=status.HTTP_200_OK)
     
 
 class GameAPIView(APIView):
