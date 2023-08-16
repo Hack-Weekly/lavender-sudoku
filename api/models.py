@@ -14,6 +14,16 @@ class User(AbstractUser):
     level=models.IntegerField(default=1,validators=[MinValueValidator(1),MaxValueValidator(10)])
     score=models.FloatField(default=0)
 
+    def update_level(self):
+        """
+        This function is used to update the level of the user
+        """
+        if self.level<10:
+            self.level=self.score//1000
+            if self.level>10:
+                self.level=10
+            self.save()
+
     def __str__(self):
         return self.username
     
