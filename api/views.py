@@ -18,7 +18,7 @@ User=get_user_model()
 from api.models import Game
 from api.serializers  import GameSerializer
 import sudokum,time
-
+from api.serializers import GameSerializer,RegisterSerializer,LeaderboardSerializer
 
 class MyTokenObtainPairView(TokenObtainPairView):
     serializer_class = MyTokenObtainPairSerializer
@@ -154,3 +154,24 @@ class GameAPIView(APIView):
             game.save()    
             return Response({"message":"Sorry your solution is not correct"},status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+
+class LeaderBoardAPIView(APIView):
+    #permission_classes = [IsAuthenticated]
+    def get(self,request):
+        user=self.request.user
+        users=User.objects.all().order_by('-score')
+        serializer = LeaderboardSerializer(users,many=True)
+        return Response(serializer.data,status=status.HTTP_200_OK)
+    
+class UserProfileAPIView(APIView):
+    permission_classes = [IsAuthenticated]
+    def get(self,request):
+        user=request.user
+        serializer = LeaderboardSerializer(user)
+        total_games=Game.objects.filter(user=user).count()
+        return Response({"user":serializer.data,
+                         "total_games":total_games,
+                        },
+                        status=status.HTTP_200_OK
+                        )    
