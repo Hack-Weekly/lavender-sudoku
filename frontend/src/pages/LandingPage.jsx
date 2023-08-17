@@ -34,16 +34,18 @@ export const LandingPage = ({ isAuth, profile }) => {
 
 
   return (
-    <div className="w-screen h-screen flex items-center justify-center bg-gradient-to-b from-blue-300 to-blue-500">
-      <div className="h-4/5 w-2/3 bg-white rounded-lg flex flex-col items-center p-8 shadow-lg gap-3">
-        <h1 className="text-4xl font-semibold text-purple-600 mb-2">Lavender Sudoku</h1>
+    <div className="w-screen h-screen flex items-center justify-center bg-gradient-to-b from-white-600 to-white-500">
+      <div className="h-6/7 w-2/3 bg-gray-50 rounded-2xl border-2 border-gray-400 flex flex-col items-center p-8 shadow-2xl gap-3">
+        <h1 className="text-4xl font-semibold text-purple-400 underline mb-2">Lavender 
+        <img className="inline-block h-18 w-18" src="https://avatars.githubusercontent.com/t/7495676?s=116&v=4" alt="lavender" />
+        Sudoku</h1>
         <p className="text-lg text-center text-gray-700 mb-4">
           {isAuth ? (
             <>
               <p>
-                Welcome back, <b>{profile.username}</b> !
+                Welcome back, <b>{profile.username}</b>!
                 <span
-                  className="text-blue-600 font-semibold cursor-pointer ml-2 hover:underline"
+                  className="text-red-800 font-semibold cursor-pointer ml-2 hover:underline"
                   onClick={handleLogout}
                 >
                   Logout
@@ -60,12 +62,12 @@ export const LandingPage = ({ isAuth, profile }) => {
               {isAuth && (
                 <>
                   <div className="flex items-center">
-                    <FireIcon className="h-5 w-5 text-purple-600" />
+                    <FireIcon className="h-5 w-5 text-orange-400" />
                     <span className="text-lg text-gray-600">Level {profile.level}</span>
                   </div>
                   <div className="flex items-center">
                     <BoltIcon className="h-5 w-5 text-yellow-400" />
-                    <span className="text-lg text-gray-600">{profile.score} Score</span>
+                    <span className="text-lg text-gray-600">Score: {profile.score}</span>
                   </div>
                 </>
               )}
@@ -75,19 +77,19 @@ export const LandingPage = ({ isAuth, profile }) => {
         <div className="flex flex-row gap-1">
           <Link
             to="/play"
-            className="bg-purple-600 text-white px-8 py-3 rounded-full text-lg font-semibold hover:bg-purple-700 transition duration-300 ease-in-out"
+            className="bg-purple-500 text-white px-8 py-3 rounded-full text-lg font-semibold hover:bg-purple-700 transition duration-300 ease-in-out"
           >
             {isAuth ? "Keep playing" : "Try a game"}
           </Link>
         </div>
         <Leaderboard leaderboardData={leaderboardData} username={isAuth ? profile.username : ""} />
-        <div className="text-lg text-gray-700">
+        <div className="text-sm text-gray-700 ">
           {!isAuth && (
             <>
               <p>
                 Want to join the Leaderboard?
                 <Link to="/login" className="text-blue-600 ml-2 hover:underline">
-                  Login
+                  login
                 </Link>{" "}
                 or{" "}
                 <Link to="/signup" className="text-blue-600 hover:underline">
