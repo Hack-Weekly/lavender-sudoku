@@ -1,7 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
 import { InputForm } from "../components/InputForm";
 import { useState } from "react";
-import { register } from "../services/endpoints/users";
+import { login, register } from "../services/endpoints/users";
 
 export const Signup = () => {
   const [username, setUsername] = useState("");
@@ -18,6 +18,7 @@ export const Signup = () => {
         password: password,
         password2: password,
       });
+      await login({username : username, password : password});
       navigate("/");
     } catch (error) {
       setIsInvalid(true);
