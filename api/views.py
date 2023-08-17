@@ -17,7 +17,7 @@ User=get_user_model()
 #project imports
 from api.models import Game
 from api.serializers  import GameSerializer
-import sudokum,time
+import sudokum,time,json
 from api.serializers import GameSerializer,RegisterSerializer,LeaderboardSerializer
 
 class MyTokenObtainPairView(TokenObtainPairView):
@@ -164,4 +164,18 @@ class UserProfileAPIView(APIView):
                          "total_games":total_games,
                         },
                         status=status.HTTP_200_OK
-                        )    
+                        )
+
+class GuestGameAPIView(APIView):
+    def get(self,request):
+        new_board=sudokum.generate(mask_rate=.4)
+        solved,new_board_solution=sudokum.solve(new_board)
+        while not solved:
+            new_board=sudokum.generate(mask_rate=.4)
+            solved,new_board_solution=sudokum.solve(new_board)
+        return Response(    {"game_":json.dumps(new_board),
+                            "game_solution":json.dumps(new_board_solution),
+                            },
+                            status=status.HTTP_201_CREATED
+                        )
+    
