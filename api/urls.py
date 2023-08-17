@@ -18,6 +18,7 @@ urlpatterns = [
     path('test/', views.testEndPoint, name='test'),
     path('game/', views.NewGameAPIView.as_view(), name='new_game'),
     path('game/<int:pk>/', views.GameAPIView.as_view(), name='game'),
+    path('guestgame/', views.GuestGameAPIView.as_view(), name='guestgame'),
     path('leaderboard/', views.LeaderBoardAPIView.as_view(), name='leaderboard'),
-     path('profile/', views.UserProfileAPIView.as_view(), name='profile'),
+    path('profile/', views.UserProfileAPIView.as_view(), name='profile'),
 ]
