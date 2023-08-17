@@ -1,4 +1,4 @@
-export const Leaderboard = ({ leaderboardData }) => {
+export const Leaderboard = ({ leaderboardData, username }) => {
   return (
     <>
       <h2 className="text-xl font-semibold mb-2 text-gray-800">Leaderboard</h2>
@@ -13,8 +13,8 @@ export const Leaderboard = ({ leaderboardData }) => {
           </thead>
           <tbody>
             {leaderboardData.map((entry, index) => (
-              <tr key={index} className={index % 2 === 0 ? "bg-gray-100" : "bg-white"}>
-                <td className="py-3 px-4">{entry.rank}</td>
+              <tr key={index} className={entry.username === username ? "bg-blue-gray-200" : (index % 2 === 0 ? "bg-gray-100" : "bg-white")}>
+                <td className="py-3 px-4">{index + 1}</td>
                 <td className="py-3 px-4">{entry.username}</td>
                 <td className="py-3 px-4">{entry.score}</td>
               </tr>
