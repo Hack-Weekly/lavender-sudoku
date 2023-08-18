@@ -34,9 +34,9 @@ export const Signup = () => {
     }
   };
   return (
-    <div className="w-screen h-screen flex items-center justify-center bg-gradient-to-b from-blue-300 to-blue-500">
-      <div className="h-4/5 w-2/3 bg-white rounded-lg flex flex-col items-center p-8 shadow-lg gap-4">
-        <h1 className="text-4xl font-semibold text-purple-600 mb-4">Sign up</h1>
+    <div className="w-screen h-screen flex items-center justify-center bg-gradient-to-b from-white-600 to-white-500">
+      <div className="h-6/7 w-2/3 bg-gray-50 rounded-2xl border-2 border-gray-400 flex flex-col items-center p-8 shadow-2xl gap-3">
+        <h1 className="text-4xl font-semibold text-purple-700 underline mb-2">Sign up</h1>
 
         <div
           className="w-full max-w-md flex flex-col gap-4"
@@ -59,7 +59,7 @@ export const Signup = () => {
           />
           <button
             onClick={handleSignUp}
-            className="bg-blue-600 text-white px-8 py-3 rounded-md text-lg font-semibold hover:bg-blue-700 transition duration-300 ease-in-out"
+            className="bg-purple-700 text-white px-8 py-3 rounded-full text-lg font-semibold hover:bg-purple-800 transition duration-300 ease-in-out"
           >
             Sign up
           </button>
@@ -68,7 +68,7 @@ export const Signup = () => {
         <p>
           You already have an account?{" "}
           <Link to="/login">
-            <span className="font-semibold text-blue-600 hover:text-blue-800">Login</span>
+            <span className="font-semibold text-purple-600 hover:text-purple-800">Login</span>
           </Link>
         </p>
         <div className="mt-6">
