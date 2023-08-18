@@ -150,7 +150,7 @@ class LeaderBoardAPIView(APIView):
     #permission_classes = [IsAuthenticated]
     def get(self,request):
         user=self.request.user
-        users=User.objects.all().order_by('score')[:3]
+        users=User.objects.all().order_by('-score')[:3]
         serializer = LeaderboardSerializer(users,many=True)
         return Response(serializer.data,status=status.HTTP_200_OK)
     
@@ -160,10 +160,27 @@ class UserProfileAPIView(APIView):
         user=request.user
         serializer = LeaderboardSerializer(user)
         total_games=Game.objects.filter(user=user).count()
-        return Response({"user":serializer.data,
+        #find the position of the user in the leaderboard
+        users=User.objects.all().order_by('-score')
+        rank=0
+        for i in range(len(users)):
+            if users[i]==user:
+                rank=i+1
+                break
+        last_game=Game.objects.filter(user=user).latest('id')
+        if last_game is None or last_game.solved():
+            return Response(
+                        {"user":serializer.data,
                          "total_games":total_games,
-                        },
-                        status=status.HTTP_200_OK
+                         "rank":rank,
+                        },status=status.HTTP_200_OK
+                        )
+        return Response(
+                        {"user":serializer.data,
+                         "total_games":total_games,
+                         "last_game":last_game.id,
+                         "rank":rank,
+                        },status=status.HTTP_200_OK
                         )
 
 class GuestGameAPIView(APIView):
