@@ -13,7 +13,7 @@ function replaceZeros(sudokuString) {
   sudokuArray[0][0] = firstValue;
   sudokuArray[8][8] = lastValue;
 
-  const newGrid = sudokuArray.map(row => row.map(cell => (cell === 0 ? '' : cell)));
+  const newGrid = sudokuArray.map(row => row.map(cell => (cell === '' ? { value: '', isModifiable : true } : { value: cell, isModifiable: false })));
   return newGrid;
 }
 
@@ -25,11 +25,13 @@ export const MyContextProvider = ({ children, grid }) => {
   useEffect(() => {
     if (grid) {
       const processedGrid = replaceZeros(grid);
+      console.log(processedGrid);
       setDataArray(processedGrid);
     }
   }, [grid]);
 
   return (
+
     <MyContext.Provider
       value={{ selectedCell, setSelectedCell, dataArray, setDataArray }}
     >

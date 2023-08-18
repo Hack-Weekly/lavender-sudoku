@@ -13,7 +13,7 @@ function App() {
   const location = useLocation();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [profile, setProfile] = useState(null);
-  const [totalGames, setTotalGames] = useState(0);
+  const [lastGame, setLastGame] = useState(0);
 
   const [isLoading, setIsloading] = useState(true);
   useEffect(() => {
@@ -23,7 +23,7 @@ function App() {
         if (isAuthenticated) {
           const res = await getProfile();
           setProfile(res.user);
-          setTotalGames(res.total_games);
+          setLastGame(res.last_game);
         }
         setIsAuthenticated(isAuthenticated);
       } catch (error) {
@@ -51,7 +51,7 @@ function App() {
             />
           }
         />
-        <Route path="/play" element={<Play isAuth={isAuthenticated} profile={profile} totalGames={totalGames}/>} />
+        <Route path="/play" element={<Play isAuth={isAuthenticated} profile={profile} lastGame={lastGame}/>} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
       </Routes>
