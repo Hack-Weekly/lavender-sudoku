@@ -47,7 +47,6 @@ const Controls = () => {
                     if (selectedCell === null) return;
                     if (isChoiceValid(choice, dataArray, selectedCell) === false) return;
 
-                    console.log(choice);
                     // put value of button in the array
                     const newArray = [...dataArray];
                     newArray[selectedCell.row][selectedCell.col] = choice;

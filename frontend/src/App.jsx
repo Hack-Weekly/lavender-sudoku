@@ -13,28 +13,45 @@ function App() {
   const location = useLocation();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [profile, setProfile] = useState(null);
-  const [isLoading, setIsloading] = useState(true);
-  useEffect(()=>{
-    const checkAuth = async () => {
-      try {
-        setIsAuthenticated(await isAuth());
-        const res = await getProfile();
-        setProfile(res.user);
+  const [totalGames, setTotalGames] = useState(0);
 
+  const [isLoading, setIsloading] = useState(true);
+  useEffect(() => {
+    const checkAuthAndFetchProfile = async () => {
+      try {
+        const isAuthenticated = await isAuth();
+        if (isAuthenticated) {
+          const res = await getProfile();
+          setProfile(res.user);
+          setTotalGames(res.total_games);
+        }
+        setIsAuthenticated(isAuthenticated);
       } catch (error) {
         console.error(error);
-      }finally{
+      } finally {
         setIsloading(false);
       }
     };
-    checkAuth();
-  },[location]);
-  if(isLoading){return <Loading />}
+
+    checkAuthAndFetchProfile();
+  }, [location]);
+  if (isLoading) {
+    return <Loading />;
+  }
   return (
     <>
       <Routes>
-        <Route path="/" element={<LandingPage isAuth={isAuthenticated} profile={profile} isLoading={isLoading}/>} />
-        <Route path="/play" element={<Play />} />
+        <Route
+          path="/"
+          element={
+            <LandingPage
+              isAuth={isAuthenticated}
+              profile={profile}
+              isLoading={isLoading}
+            />
+          }
+        />
+        <Route path="/play" element={<Play isAuth={isAuthenticated} profile={profile} totalGames={totalGames}/>} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
       </Routes>
