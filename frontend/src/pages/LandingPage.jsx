@@ -82,7 +82,7 @@ export const LandingPage = ({ isAuth, profile }) => {
             {isAuth ? "Keep playing" : "Try a game"}
           </Link>
         </div>
-        <Leaderboard leaderboardData={leaderboardData} username={isAuth ? profile.username : ""} />
+        <Leaderboard leaderboardData={leaderboardData} profile={isAuth ? profile : null} username={isAuth ? profile.username : ""}/>
         <div className="text-sm text-gray-700 ">
           {!isAuth && (
             <>

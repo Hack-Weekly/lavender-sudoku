@@ -42,7 +42,7 @@ const getMedal = (rank) => {
 
 
 
-export const Leaderboard = ({ leaderboardData, username }) => {
+export const Leaderboard = ({ leaderboardData,username,profile }) => {
   return (
     <>
       <h2 className="text-xl font-semibold mt-2 underline text-gray-800">Leaderboard</h2>
