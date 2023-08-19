@@ -3,16 +3,22 @@ import { useMyContext } from "./SelectedCellContext";
 
 const Cell = ({ content, rowId, columnId }) => {
   const { setSelectedCell } = useMyContext();
+
+  // Define the color scheme based on your LandingPage colors
+  const bgColor = content.isModifiable ? "bg-purple-300" : "bg-purple-200";
+  const textColor = content.isModifiable ? "text-white" : "text-gray-700";
+
   return (
     <button
       onClick={() => {
-        console.log(rowId +','+ columnId);
-        const cell = {row: rowId, col: columnId};
-        setSelectedCell(cell)
+        if (content.isModifiable) {
+          const cell = { row: rowId, col: columnId };
+          setSelectedCell(cell);
+        }
       }}
-      className="flex justify-center items-center bg-violet-50 h-12 w-12 font-semibold text-2xl pb-1 text-violet-950 hover:bg-violet-400 focus:bg-violet-400"
+      className={`flex justify-center items-center ${bgColor} ${textColor} h-12 w-12 font-semibold text-2xl pb-1 ${content.isModifiable && "hover:bg-purple-800 hover:text-white focus:bg-purple-800" } rounded-lg shadow-md transition duration-300`}
     >
-      {content}
+      {content.value}
     </button>
   );
 };
