@@ -32,8 +32,8 @@ export const MyContextProvider = ({ children, grid }) => {
   useEffect(() => {
     if (grid) {
       const processedGrid = replaceZeros(grid);
-      console.log(processedGrid);
       setDataArray(processedGrid);
+      setSelectedCell(null);
     }
   }, [grid]);
 
