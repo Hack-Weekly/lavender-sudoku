@@ -5,7 +5,7 @@ import { logout } from "../services/endpoints/users";
 import { FireIcon, BoltIcon } from "@heroicons/react/24/solid";
 import { useEffect, useState } from "react";
 import { getLeaderBoard } from "../services/endpoints/leaderboard";
-export const LandingPage = ({ isAuth, profile }) => {
+export const LandingPage = ({ isAuth, profile}) => {
 
   const [leaderboardData, setLeaderboardData] = useState([]);
 

@@ -14,16 +14,23 @@ function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [profile, setProfile] = useState(null);
   const [lastGame, setLastGame] = useState(0);
-
   const [isLoading, setIsloading] = useState(true);
+
+  const fetchProfile = async() => {
+    try{
+       const res = await getProfile();
+       setProfile(res.user);
+       setLastGame(res.last_game);
+    }catch(error){
+      console.error(error);
+    }
+  }
   useEffect(() => {
     const checkAuthAndFetchProfile = async () => {
       try {
         const isAuthenticated = await isAuth();
         if (isAuthenticated) {
-          const res = await getProfile();
-          setProfile(res.user);
-          setLastGame(res.last_game);
+          await fetchProfile();
         }
         setIsAuthenticated(isAuthenticated);
       } catch (error) {
@@ -48,10 +55,11 @@ function App() {
               isAuth={isAuthenticated}
               profile={profile}
               isLoading={isLoading}
+              
             />
           }
         />
-        <Route path="/play" element={<Play isAuth={isAuthenticated} profile={profile} lastGame={lastGame}/>} />
+        <Route path="/play" element={<Play isAuth={isAuthenticated} profile={profile} lastGame={lastGame} fetchProfile={fetchProfile}/>} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
       </Routes>
