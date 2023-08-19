@@ -167,7 +167,10 @@ class UserProfileAPIView(APIView):
             if users[i]==user:
                 rank=i+1
                 break
-        last_game=Game.objects.filter(user=user).latest('id')
+        try:
+            last_game=Game.objects.filter(user=user).latest('id')
+        except Game.DoesNotExist:
+            last_game=None
         if last_game is None or last_game.solved():
             return Response(
                         {"user":serializer.data,
