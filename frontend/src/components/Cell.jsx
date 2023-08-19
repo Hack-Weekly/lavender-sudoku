@@ -5,8 +5,8 @@ const Cell = ({ content, rowId, columnId }) => {
   const { setSelectedCell } = useMyContext();
 
   // Define the color scheme based on your LandingPage colors
-  const bgColor = content.isModifiable ? "bg-purple-300" : "bg-purple-200";
-  const textColor = content.isModifiable ? "text-white" : "text-gray-700";
+  const bgColor = content.isModifiable ? "bg-purple-200" : "bg-purple-300";
+  const textColor = content.isModifiable ? "text-gray-600" : "text-gray-700";
 
   return (
     <button

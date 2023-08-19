@@ -17,7 +17,7 @@ export const createAndGetGame = async() => {
 }
 
 export const validateGame = async(id, data) => {
-    const route = `/game/${id}`;
+    const route = `/game/${id}/`;
     return post(route, data);
 }
 
