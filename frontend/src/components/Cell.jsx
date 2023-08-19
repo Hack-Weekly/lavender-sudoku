@@ -16,7 +16,7 @@ const Cell = ({ content, rowId, columnId }) => {
           setSelectedCell(cell);
         }
       }}
-      className={`flex justify-center items-center ${bgColor} ${textColor} h-12 w-12 font-semibold text-2xl pb-1 hover:bg-purple-800 hover:text-white focus:bg-purple-800 rounded-lg shadow-md transition duration-300`}
+      className={`flex justify-center items-center ${bgColor} ${textColor} h-12 w-12 font-semibold text-2xl pb-1 ${content.isModifiable && "hover:bg-purple-800 hover:text-white focus:bg-purple-800" } rounded-lg shadow-md transition duration-300`}
     >
       {content.value}
     </button>

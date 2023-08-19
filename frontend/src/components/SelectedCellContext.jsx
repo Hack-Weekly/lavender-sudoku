@@ -5,7 +5,9 @@ const MyContext = createContext();
 function replaceZeros(sudokuString) {
   const rowsString = sudokuString.substring(1, sudokuString.length - 1);
   const rows = rowsString.split("], [");
-  const sudokuArray = rows.map(row => row.split(", ").map(cell => (cell === '0' ? '' : parseInt(cell))));
+  const sudokuArray = rows.map((row) =>
+    row.split(", ").map((cell) => (cell === "0" ? "" : parseInt(cell)))
+  );
 
   const firstValue = parseInt(sudokuString[2]);
   const lastValue = parseInt(sudokuString[sudokuString.length - 3]);
@@ -13,10 +15,15 @@ function replaceZeros(sudokuString) {
   sudokuArray[0][0] = firstValue;
   sudokuArray[8][8] = lastValue;
 
-  const newGrid = sudokuArray.map(row => row.map(cell => (cell === '' ? { value: '', isModifiable : true } : { value: cell, isModifiable: false })));
+  const newGrid = sudokuArray.map((row) =>
+    row.map((cell) =>
+      cell === "" || cell === 0
+        ? { value: "", isModifiable: true }
+        : { value: cell, isModifiable: false }
+    )
+  );
   return newGrid;
 }
-
 
 export const MyContextProvider = ({ children, grid }) => {
   const [selectedCell, setSelectedCell] = useState(null);
@@ -31,7 +38,6 @@ export const MyContextProvider = ({ children, grid }) => {
   }, [grid]);
 
   return (
-
     <MyContext.Provider
       value={{ selectedCell, setSelectedCell, dataArray, setDataArray }}
     >
