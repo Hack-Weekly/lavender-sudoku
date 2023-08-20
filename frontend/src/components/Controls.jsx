@@ -4,7 +4,6 @@ import { useMyContext } from "./SelectedCellContext";
 const Controls = ({ setUserBoard }) => {
   const { selectedCell, dataArray, setDataArray } = useMyContext();
   const choices = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-
   const handleChoiceClick = (choice) => {
     if (selectedCell) {
       const newArray = [...dataArray];
@@ -14,6 +13,7 @@ const Controls = ({ setUserBoard }) => {
       };
       setDataArray(newArray);
       setUserBoard(newArray);
+      localStorage.setItem("userProgress", JSON.stringify(newArray));
     }
   };
   return (

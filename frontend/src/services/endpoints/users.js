@@ -25,6 +25,9 @@ export const login = async (data) => {
 export const logout = () => {
   localStorage.removeItem("accessToken");
   localStorage.removeItem("refreshToken");
+  localStorage.removeItem("userProgress");
+  localStorage.removeItem("gameData");
+  localStorage.removeItem("timer"); 
   delete api.defaults.headers.common["Authorization"];
 };
 
