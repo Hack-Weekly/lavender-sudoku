@@ -42,7 +42,6 @@ const Play = ({ isAuth, profile, lastGame, fetchProfile }) => {
   const [showFailDialog, setShowFailDialog] = useState(false);
   const { minutes, seconds, resetTimer } = useCountDown();
 
-
   const fetchGame = async (newGame = false) => {
     try {
       let gameData;
@@ -103,8 +102,6 @@ const Play = ({ isAuth, profile, lastGame, fetchProfile }) => {
       if (res.data.message === "Congratulation you solved the sudoku") {
         setShowCongratsDialog(true);
         await fetchProfile();
-        resetTimer();
-        fetchGame(true);
       } else {
         fetchGame();
       }
@@ -118,6 +115,8 @@ const Play = ({ isAuth, profile, lastGame, fetchProfile }) => {
   };
   const handleCongratsClose = () => {
     setShowCongratsDialog(false);
+    resetTimer();
+    fetchGame(true);
   };
   useEffect(() => {
     fetchGame();
