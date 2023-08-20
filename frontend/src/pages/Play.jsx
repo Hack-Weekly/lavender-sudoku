@@ -12,6 +12,7 @@ import { Loading } from "../components/Loading";
 import { Link, useNavigate } from "react-router-dom";
 import { Stats } from "../components/Stats";
 import { CongratsMessage } from "../components/CongratsMessage";
+import { useCountDown } from "../hooks/useCountDown";
 
 const fetchRandomGame = async () => {
   try {
@@ -34,6 +35,8 @@ const Play = ({ isAuth, profile, lastGame, fetchProfile }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [userBoard, setUserBoard] = useState(null);
   const [showCongratsDialog, setShowCongratsDialog] = useState(false);
+  const {minutes, seconds, resetTimer} = useCountDown();
+
   const fetchGame = async (newGame = false) => {
     try {
       let gameData;
@@ -52,6 +55,8 @@ const Play = ({ isAuth, profile, lastGame, fetchProfile }) => {
         gameData = await fetchRandomGame();
       }
       setGameData(gameData);
+      // resetTimer();
+      
     } catch (error) {
       console.error("Error fetching game:", error);
     } finally {
@@ -88,7 +93,7 @@ const Play = ({ isAuth, profile, lastGame, fetchProfile }) => {
         <div className="h-6/7 w-2/3 bg-gray-50 rounded-2xl border-2 border-gray-400 flex flex-col items-center p-8 shadow-2xl gap-3">
           <div className="flex flex-row gap-5 justify-center items-center">
             <div className="flex flex-col gap-1 ">
-              <Stats profile={profile} gameData={gameData} isAuth={isAuth} />
+              <Stats profile={profile} gameData={gameData} isAuth={isAuth} minutes={minutes} seconds={seconds} />
               <Grid />
             </div>
             <div className="flex flex-col gap-2">
@@ -100,7 +105,11 @@ const Play = ({ isAuth, profile, lastGame, fetchProfile }) => {
                 Submit
               </button>}
               <button
-                onClick={() => fetchGame(true)}
+                onClick={() => {
+                  fetchGame(true)
+                  resetTimer();
+                }
+                }
                 className="bg-purple-700 text-white px-8 py-3 rounded-md text-lg font-semibold hover:bg-purple-800 transition duration-300 ease-in-out text-center"
               >
                 New game
