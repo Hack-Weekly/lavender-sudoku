@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "http://localhost:8000/api",
+  baseURL: "https://lavendersnake.alexdeathway.me",
   timeout: 5000,
   headers: {
     "Content-Type": "application/json",
