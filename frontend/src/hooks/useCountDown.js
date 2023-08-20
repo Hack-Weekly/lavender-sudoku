@@ -1,19 +1,19 @@
 import { useEffect, useState } from "react";
 
-const useCountDown = () => {
-
-    const initalTime = 3600; // 60 min to solve sudoku
+const useCountDown = (changeLocalTimer) => {
+    let initalTime = Number(localStorage.getItem("timer"));
     const [countDown, setCountDown] = useState(initalTime)
 
-    const resetTimer = () => {
-        setCountDown(initalTime);
-        console.log(countDown);
+    const resetTimer = (initTime = 3599) => {
+        setCountDown(initTime);
     };
 
     useEffect(() => {
         const interval = setInterval(() => {
             if (countDown === 0) return;
             setCountDown(countDown - 1);
+            localStorage.setItem("timer", countDown - 1);
+
         }, 1000);
 
         return () => clearInterval(interval);
