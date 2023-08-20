@@ -31,16 +31,17 @@ function convertToSudokuString(grid) {
   return `[${rowsString.join(", ")}]`;
 }
 const Play = ({ isAuth, profile, lastGame, fetchProfile }) => {
+  const INITIAL_TIMER_VALUE = 3599;
   const navigate = useNavigate();
   const [gameData, setGameData] = useState({});
   const [isLoading, setIsLoading] = useState(true);
   const [userBoard, setUserBoard] = useState(null);
-  const [localTimer, setLocalTimer] = useState(0);
+  const [localTimer, setLocalTimer] = useState(INITIAL_TIMER_VALUE);
+  const [userProgress, setUserProgress] = useState(null);
   const [showCongratsDialog, setShowCongratsDialog] = useState(false);
   const [showFailDialog, setShowFailDialog] = useState(false);
   const { minutes, seconds, resetTimer } = useCountDown();
 
-  const INITIAL_TIMER_VALUE = 3599;
 
   const fetchGame = async (newGame = false) => {
     try {
@@ -54,8 +55,10 @@ const Play = ({ isAuth, profile, lastGame, fetchProfile }) => {
         }
       } else {
         gameData = await fetchRandomGame();
+        localStorage.setItem("userProgress", gameData.game_);
+        resetTimer();
       }
-
+      setUserProgress(JSON.parse(localStorage.getItem("userProgress")));
       setGameData(gameData);
     } catch (error) {
       console.error("Error fetching game:", error);
@@ -79,6 +82,7 @@ const Play = ({ isAuth, profile, lastGame, fetchProfile }) => {
   };
 
   const updateLocalStorageAndTimer = (gameData) => {
+    localStorage.setItem("userProgress", gameData.board);
     localStorage.setItem("gameData", JSON.stringify(gameData));
     localStorage.setItem("timer", INITIAL_TIMER_VALUE);
   };
@@ -119,14 +123,14 @@ const Play = ({ isAuth, profile, lastGame, fetchProfile }) => {
     fetchGame();
   }, []);
   useEffect(() => {
-    fetchProfile();
+    isAuth && fetchProfile();
   }, [gameData]);
   if (isLoading) {
     return <Loading />;
   }
 
   return (
-    <MyContextProvider grid={isAuth ? gameData.board : gameData.game_}>
+    <MyContextProvider grid={userProgress}>
       <div className="w-screen h-screen flex flex-col items-center justify-center bg-gradient-to-b from-white-600 to-white-500">
         <div className="h-6/7 w-2/3 bg-gray-50 rounded-2xl border-2 border-gray-400 flex flex-col items-center p-8 shadow-2xl gap-3">
           <div className="flex flex-row gap-5 justify-center items-center">

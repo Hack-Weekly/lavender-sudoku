@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-const useCountDown = (changeLocalTimer) => {
+const useCountDown = () => {
     let initalTime = Number(localStorage.getItem("timer"));
     const [countDown, setCountDown] = useState(initalTime)
 
