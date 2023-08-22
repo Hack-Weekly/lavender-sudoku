@@ -7,6 +7,26 @@ RUN apt-get update \
   && apt-get install -y --no-install-recommends build-essential libpq-dev \
   && rm -rf /var/lib/apt/lists/*
 
+RUN apt-get update \
+  && apt-get install -y --no-install-recommends \
+  libjpeg-dev \
+  zlib1g-dev \
+  libfreetype6-dev \
+  liblcms2-dev \
+  libopenjp2-7-dev \
+  libtiff5-dev \
+  tk-dev \
+  tcl-dev \
+  libharfbuzz-dev \
+  libfribidi-dev \
+  libxcb1-dev \
+  libpq-dev \
+  libxml2-dev \
+  libxslt1-dev \
+  libffi-dev \
+  libssl-dev \
+  && rm -rf /var/lib/apt/lists/*
+
 COPY requirements.txt /tmp/requirements.txt
 RUN pip install --no-cache-dir -r /tmp/requirements.txt \
     && rm -rf /tmp/requirements.txt \
