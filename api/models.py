@@ -39,7 +39,7 @@ class Game(models.Model):
     user_solution=models.TextField(blank=True,null=True)
     tries_left=models.IntegerField()
     started_at=models.TimeField()
-    finished_at=models.FloatField(blank=True,null=True)
+    finished_at=models.TimeField(default='00:00:00')
 
     @property
     def playing_board(self):
@@ -70,21 +70,30 @@ class Game(models.Model):
 
     @property
     def finishing_time(self):
-        if self.start and self.finished_at:
+        if self.started_at and self.finished_at:
             time_difference = (self.finished_at.hour * 3600 + self.finished_at.minute * 60 + self.finished_at.second) - (self.started_at.hour * 3600 + self.started_at.minute * 60 + self.started_at.second)
-            if time_difference<=3600:
+            if time_difference>=1 and time_difference<=3600:
                 return time_difference
         return 1
     
     def score(self):
         if self.solved():
-            return self.level*10+ self.finishing_time/10 + self.tries_left *1.5
+            level_weight = 100
+            time_weight = 7
+            tries_weight = 5
 
+            normalized_time = self.finishing_time / 1000 
+
+            weighted_level = self.level * level_weight
+            weighted_time = normalized_time * time_weight
+            weighted_tries = self.tries_left * tries_weight
+
+            return weighted_level + weighted_time + weighted_tries
     def __str__(self):
         return self.user.username+" "+str(self.id)
     
     def save(self,*args,**kwargs):
-        if not self.started_time:
+        if not self.started_at:
             self.started_at = timezone.now().time()
         
         if self.tries_left is None:
