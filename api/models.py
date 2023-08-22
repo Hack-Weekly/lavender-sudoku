@@ -85,7 +85,7 @@ class Game(models.Model):
     
     def save(self,*args,**kwargs):
         if not self.started_time:
-            self.started_time = timezone.now().time()
+            self.started_at = timezone.now().time()
         
         if self.tries_left is None:
             self.tries_left=25-(self.level*2)
