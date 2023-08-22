@@ -19,6 +19,7 @@ from api.models import Game
 from api.serializers  import GameSerializer
 import sudokum,time,json
 from api.serializers import GameSerializer,RegisterSerializer,LeaderboardSerializer
+from django.utils import timezone
 
 class MyTokenObtainPairView(TokenObtainPairView):
     serializer_class = MyTokenObtainPairSerializer
@@ -129,7 +130,7 @@ class GameAPIView(APIView):
             #to compare it with the solution  ⬇ #no longer needed as we are using the serializer and models noew
             # if user_submition.user_solution==str(game.playing_board_solution):
             if game.solved():
-               game.finished_at=time.time()
+               game.finished_at=timezone.now().time()
                score=game.score()
                user.score+=score
                #print(game.created_at)

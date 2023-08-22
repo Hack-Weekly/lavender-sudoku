@@ -5,7 +5,7 @@ from django.utils.text import slugify
 #import projec
 from django.contrib.postgres.fields import ArrayField
 import json
-import time
+from django.utils import timezone
 from django.core.validators import MaxValueValidator, MinValueValidator
 
 class User(AbstractUser):
@@ -38,7 +38,7 @@ class Game(models.Model):
     solution=models.TextField(blank=True,null=True)
     user_solution=models.TextField(blank=True,null=True)
     tries_left=models.IntegerField()
-    created_at=models.FloatField(default=time.time())
+    started_at=models.TimeField()
     finished_at=models.FloatField(blank=True,null=True)
 
     @property
@@ -70,21 +70,23 @@ class Game(models.Model):
 
     @property
     def finishing_time(self):
-        #return finshed time in seconds
-        #will be used to calculate score
-        finish_seconds=self.finished_at-self.created_at
-        if finish_seconds<=3600:
-            return finish_seconds
+        if self.start and self.finished_at:
+            time_difference = (self.finished_at.hour * 3600 + self.finished_at.minute * 60 + self.finished_at.second) - (self.started_at.hour * 3600 + self.started_at.minute * 60 + self.started_at.second)
+            if time_difference<=3600:
+                return time_difference
         return 1
     
     def score(self):
         if self.solved():
-            return self.level*10+int(self.finishing_time)/10 + self.tries_left *1.5
+            return self.level*10+ self.finishing_time/10 + self.tries_left *1.5
 
     def __str__(self):
         return self.user.username+" "+str(self.id)
     
     def save(self,*args,**kwargs):
+        if not self.started_time:
+            self.started_time = timezone.now().time()
+        
         if self.tries_left is None:
             self.tries_left=25-(self.level*2)
         super().save(*args,**kwargs)
